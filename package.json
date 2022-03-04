@@ -2,7 +2,33 @@
   "dependencies": {
     "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.3",
     "request": "^2.88.2"
-  }
+  },
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "a Simple todo-app using Express JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbubakarYasir/Todo-App.git"
+  },
+  "keywords": [
+    "Express.js",
+    "Javascript",
+    "HTML",
+    "Node.js",
+    "Backend-Development",
+    "CSS"
+  ],
+  "author": "AbubakarYasir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbubakarYasir/Todo-App/issues"
+  },
+  "homepage": "https://github.com/AbubakarYasir/Todo-App#readme"
 }
