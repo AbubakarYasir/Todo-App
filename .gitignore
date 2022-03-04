@@ -1,3 +1,9 @@
+.vscode/
+private.txt
+node_modules/
+.env
+api_keys.js
+
 # Logs
 logs
 *.log
