@@ -7,7 +7,7 @@ require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 const app = express();
-let items = ["Buy Food", "Cook Food", "Eat Food"];
+let items = ["Buy Food", "Cook Food"];
 
 app.use("/public", express.static(process.cwd() + "/public"));
 app.set("view engine", "ejs");
