@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 let items = ["Buy Food", "Cook Food"];
+let workItems = ["Design Post", "Design Slider"];
 
 app.use("/public", express.static(process.cwd() + "/public"));
 app.set("view engine", "ejs");
@@ -25,9 +26,17 @@ app.get("/", function (req, res) {
 
     let day = today.toLocaleDateString("en-US", options);
 
-    res.render("lists", { kindOfDay: day, newListItems: items });
+    res.render("lists", { listItem: day, newListItems: items });
 });
 
+app.get("/work", function (req, res) {
+    res.render("lists", { listItem: "Work List", newListItems: workItems });
+});
+app.post("/work", function (req, res) {
+    let item = req.body.newItem;
+    workItems.push(workItems);
+    res.redirect("/work");
+});
 app.post("/", function (req, res) {
     let item = req.body.newItem;
 
