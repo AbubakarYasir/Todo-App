@@ -11,7 +11,7 @@
 
 <body>
     <div class="box" id="heading">
-        <h1> <%= listItem %> </h1>
+        <h1> <%= listTitle %> </h1>
     </div>
 
 
@@ -25,7 +25,7 @@
 
         <form class="item" action="/" method="post">
             <input type="text" name="newItem" id="todo-item" placeholder="New Item" autocomplete="off">
-            <button type="submit" name="button">+</button>
+            <button type="submit" name="button" value=<%= listTitle %>>+</button>
         </form>
     </div>
 

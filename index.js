@@ -26,24 +26,31 @@ app.get("/", function (req, res) {
 
     let day = today.toLocaleDateString("en-US", options);
 
-    res.render("lists", { listItem: day, newListItems: items });
-});
-
-app.get("/work", function (req, res) {
-    res.render("lists", { listItem: "Work List", newListItems: workItems });
-});
-app.post("/work", function (req, res) {
-    let item = req.body.newItem;
-    workItems.push(workItems);
-    res.redirect("/work");
+    res.render("lists", { listTitle: day, newListItems: items });
 });
 app.post("/", function (req, res) {
     let item = req.body.newItem;
+    if (req.body.list === "Work") {
+        console.log("there is a bug");
+        workItems.push(item);
+        res.redirect("/work");
+    } else {
+        items.push(item);
 
-    items.push(item);
-
-    res.redirect("/");
+        res.redirect("/");
+    }
+    console.log(req.body.button.toLocaleLowerCase());
+    console.log(req.body.list);
 });
+
+app.get("/work", function (req, res) {
+    res.render("lists", { listTitle: "Work List", newListItems: workItems });
+});
+// app.post("/work", function (req, res) {
+//     let item = req.body.newItem;
+//     workItems.push(workItems);
+//     res.redirect("/work");
+// });
 
 app.listen(port, function () {
     console.log("Server is started at http://localhost:" + port);
