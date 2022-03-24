@@ -31,7 +31,6 @@ app.get("/", function (req, res) {
 app.post("/", function (req, res) {
     let item = req.body.newItem;
     if (req.body.list === "Work") {
-        console.log("there is a bug");
         workItems.push(item);
         res.redirect("/work");
     } else {
@@ -39,8 +38,6 @@ app.post("/", function (req, res) {
 
         res.redirect("/");
     }
-    console.log(req.body.button.toLocaleLowerCase());
-    console.log(req.body.list);
 });
 
 app.get("/work", function (req, res) {
