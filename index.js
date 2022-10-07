@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -14,13 +13,20 @@ app.use(bodyParser.json());
 
 app.use("/public", express.static(process.cwd() + "/public"));
 
-const items = ["Buy Food", "Cook Food"]; // Storing Data / Items
-const workItems = ["Design Post", "Design Slider"]; // Storing Work Items
+mongoose.connect("mongodb://localhost:27101/todolistDB", {
+  useNewUrlParser: true,
+}); // Connecting Mongoose Database
+
+const todoItems = {
+  name: String,
+};
+
+const Item = mongoose.model("Item", todoItems);
 
 app.get("/", function (req, res) {
   const day = date.getDate();
 
-  res.render("lists", { listTitle: day, newListItems: items });
+  res.render("lists", { listTitle: "Today", newListItems: items });
 });
 app.post("/", function (req, res) {
   const item = req.body.newItem;
