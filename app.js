@@ -44,7 +44,10 @@ Item.insertMany(defaulItems, function (err) {
 });
 
 app.get("/", function (req, res) {
-  res.render("list", { listTitle: "Today", newListItems: items });
+  // Mongoose Find Method
+  Item.find({}, function (err, foundItems) {
+    res.render("list", { listTitle: "Today", newListItems: foundItems });
+  });
 });
 
 app.post("/", function (req, res) {
