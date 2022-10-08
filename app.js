@@ -24,8 +24,27 @@ const itemsSchema = {
 // Mongoose Model
 const Item = mongoose.model("Item", itemsSchema);
 
+// Mongoose Documents
+const item1 = new item({ name: "Welcome to your todolist!" });
+
+const item2 = new item({ name: "Hit the + butoon to add a new item." });
+
+const item3 = new item({ name: "<-- Hit this to delete an item." });
+
+// Items Array
+const defaulItems = [item1, item2, item3];
+
+// Insert Documents/Data Array in Database
+Item.insertMany(defaulItems, function (err) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Data Inserted Sucessfully!");
+  }
+});
+
 app.get("/", function (req, res) {
-  res.render("list", { listTitle: day, newListItems: items });
+  res.render("list", { listTitle: "Today", newListItems: items });
 });
 
 app.post("/", function (req, res) {
