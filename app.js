@@ -5,20 +5,26 @@ const bodyParser = require("body-parser");
 const mongoose = requrie("mongoose");
 
 const app = express();
-
+// Setting up EJS and Express
 app.set("view engine", "ejs");
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// Mongoose Connection
 mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-app.get("/", function (req, res) {
-  const day = date.getDate();
+// Mongoose Schema
+const itemsSchema = {
+  name: String,
+};
 
+// Mongoose Model
+const Item = mongoose.model("Item", itemsSchema);
+
+app.get("/", function (req, res) {
   res.render("list", { listTitle: day, newListItems: items });
 });
 
