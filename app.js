@@ -2,7 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = requrie("mongoose");
+const mongoose = require("mongoose");
 
 const app = express();
 // Setting up EJS and Express
