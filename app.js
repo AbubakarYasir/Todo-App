@@ -34,36 +34,33 @@ const item3 = new Item({ name: "<-- Hit this to delete an item." });
 // Items Array
 const defaulItems = [item1, item2, item3];
 
-// Insert Documents/Data Array in Database
-Item.insertMany(defaulItems, function (err) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Data Inserted Sucessfully!");
-  }
-});
-
 app.get("/", function (req, res) {
   // Mongoose Find Method
   Item.find({}, function (err, foundItems) {
-    res.render("list", { listTitle: "Today", newListItems: foundItems });
+    // Insert Documents/Data Array in Database
+    if (foundItems.length === 0) {
+      Item.insertMany(defaulItems, function (err) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Data Inserted Sucessfully!");
+        }
+      });
+      res.redirect("/");
+    } else {
+      res.render("list", { listTitle: "Today", newListItems: foundItems });
+    }
   });
 });
 
 app.post("/", function (req, res) {
-  const item = req.body.newItem;
+  const itemName = req.body.newItem;
 
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
-});
+  const item = new Item({ name: itemName });
 
-app.get("/work", function (req, res) {
-  res.render("list", { listTitle: "Work List", newListItems: workItems });
+  item.save();
+
+  res.redirect("/");
 });
 
 app.get("/about", function (req, res) {
