@@ -52,7 +52,7 @@ app.get("/", function (req, res) {
     }
   });
 });
-
+// Responsible for Adding New Items
 app.post("/", function (req, res) {
   const itemName = req.body.newItem;
 
@@ -60,6 +60,21 @@ app.post("/", function (req, res) {
 
   item.save();
 
+  res.redirect("/");
+});
+
+// Responsible for Deleting Items
+app.post("/delete", function (req, res) {
+  // Checks Items for their ID
+  const checkedItemId = req.body.checkbox;
+
+  Item.findByIdAndRemove(checkedItemId, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Succesfully Deleted!");
+    }
+  });
   res.redirect("/");
 });
 
