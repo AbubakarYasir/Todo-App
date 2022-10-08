@@ -25,11 +25,11 @@ const itemsSchema = {
 const Item = mongoose.model("Item", itemsSchema);
 
 // Mongoose Documents
-const item1 = new item({ name: "Welcome to your todolist!" });
+const item1 = new Item({ name: "Welcome to your todolist!" });
 
-const item2 = new item({ name: "Hit the + butoon to add a new item." });
+const item2 = new Item({ name: "Hit the + butoon to add a new item." });
 
-const item3 = new item({ name: "<-- Hit this to delete an item." });
+const item3 = new Item({ name: "<-- Hit this to delete an item." });
 
 // Items Array
 const defaulItems = [item1, item2, item3];
