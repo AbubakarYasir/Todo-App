@@ -16,23 +16,31 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useUnifiedTopology: true,
 });
 
-// Mongoose Schema
+// Mongoose Schema (Main Page)
 const itemsSchema = {
   name: String,
 };
 
-// Mongoose Model
+// Mongoose Model (Main Page)
 const Item = mongoose.model("Item", itemsSchema);
 
-// Mongoose Documents
+// Mongoose Documents (Main Page)
 const item1 = new Item({ name: "Welcome to your todolist!" });
 
 const item2 = new Item({ name: "Hit the + butoon to add a new item." });
 
 const item3 = new Item({ name: "<-- Hit this to delete an item." });
 
-// Items Array
+// Items Array (Main Page Default Items)
 const defaulItems = [item1, item2, item3];
+
+// Schema for Custom List
+const listSchema = {
+  name: String,
+  items: [itemsSchema],
+};
+// Model for Custom List
+const List = mongoose.model("List", listSchema);
 
 app.get("/", function (req, res) {
   // Mongoose Find Method
@@ -52,9 +60,35 @@ app.get("/", function (req, res) {
     }
   });
 });
+// Responsible for Custom Route Parameters
+app.get("/:customListName", function (req, res) {
+  const customListName = req.params.customListName;
+  List.findOne({ name: customListName }, function (err, foundList) {
+    if (!err) {
+      if (!foundList) {
+        // Path to create a new List
+        const list = new List({
+          name: customListName,
+          items: defaulItems,
+        });
+
+        list.save();
+        res.redirect("/" + customListName);
+      } else {
+        // Show an Existing list
+        res.render("list", {
+          listTitle: foundList.name,
+          newListItems: foundList.items,
+        });
+      }
+    }
+  });
+});
+
 // Responsible for Adding New Items
 app.post("/", function (req, res) {
   const itemName = req.body.newItem;
+  const listName = req.body.list;
 
   const item = new Item({ name: itemName });
 
@@ -82,10 +116,6 @@ app.post("/delete", function (req, res) {
     }
   });
   res.redirect("/");
-});
-
-app.get("/about", function (req, res) {
-  res.render("about");
 });
 
 app.listen(3000, function () {
