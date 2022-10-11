@@ -37,7 +37,7 @@ const defaulItems = [item1, item2, item3];
 app.get("/", function (req, res) {
   // Mongoose Find Method
   Item.find({}, function (err, foundItems) {
-    // Insert Documents/Data Array in Database
+    // Insert Default Documents/Data Array in Database if not found
     if (foundItems.length === 0) {
       Item.insertMany(defaulItems, function (err) {
         if (err) {
@@ -58,7 +58,13 @@ app.post("/", function (req, res) {
 
   const item = new Item({ name: itemName });
 
-  item.save();
+  item.save(function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Succesfully Added");
+    }
+  });
 
   res.redirect("/");
 });
