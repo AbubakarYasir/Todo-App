@@ -92,30 +92,45 @@ app.post("/", function (req, res) {
 
   const item = new Item({ name: itemName });
 
-  item.save(function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Succesfully Added");
-    }
-  });
-
-  res.redirect("/");
+  if (listName === "Today") {
+    item.save(console.log("Succesfully Added to Today Page"));
+    res.redirect("/");
+  } else {
+    List.findOne({ name: listName }, function (err, foundList) {
+      foundList.items.push(item);
+      foundList.save(console.log("Sucessfully Added to " + foundList.name));
+      res.redirect("/" + foundList.name);
+    });
+  }
 });
 
 // Responsible for Deleting Items
 app.post("/delete", function (req, res) {
   // Checks Items for their ID
   const checkedItemId = req.body.checkbox;
+  const listName = req.body.listName;
 
-  Item.findByIdAndRemove(checkedItemId, function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Succesfully Deleted!");
-    }
-  });
-  res.redirect("/");
+  if (listName === "Today") {
+    Item.findByIdAndRemove(checkedItemId, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Succesfully Deleted from Today's Page!");
+      }
+    });
+    res.redirect("/");
+  } else {
+    List.findOneAndUpdate(
+      { name: listName },
+      { $pull: { items: { _id: checkedItemId } } },
+      function (err, foundList) {
+        if (!err) {
+          console.log("Succesfully Deleted from " + listName + "!");
+          res.redirect("/" + listName);
+        }
+      }
+    );
+  }
 });
 
 app.listen(3000, function () {
